@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RE:HITS • HITS DIFFERENT.</title>
+<style>
+:root{--bg:#050807;--panel:#0b1110;--panel2:#0e1714;--text:#f6f8f7;--muted:#8c9a95;--accent:#00efb5;--line:#1d2b27}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,rgba(0,239,181,.09),transparent 28%),var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;padding:28px}
+main{max-width:1080px;margin:auto}.brand{text-align:center;margin:6px 0 26px}.logo{font-weight:950;font-size:clamp(46px,8vw,80px);letter-spacing:-.07em}.logo .re,.label,.accent{color:var(--accent)}.logo .colon{color:var(--accent);display:inline-block;transform:skew(-12deg)}.slogan{letter-spacing:.42em;font-size:12px}
+.card{background:rgba(11,17,16,.96);border:1px solid var(--line);border-radius:26px}.player{padding:24px}.playergrid{display:grid;grid-template-columns:300px 1fr;gap:30px;align-items:center}
+.cover{aspect-ratio:1;border-radius:20px;background:linear-gradient(145deg,#14231f,#07100e);border:1px solid #21332e;display:grid;place-items:center;position:relative;overflow:hidden}.cover:before{content:"RE:";font-size:88px;font-weight:950;letter-spacing:-8px;color:var(--accent)}.live{position:absolute;top:14px;left:14px;border:1px solid #285044;background:#08110f;border-radius:99px;padding:7px 11px;font-size:11px;font-weight:900;letter-spacing:.12em}.live i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:7px}
+.label{font-size:12px;font-weight:900;letter-spacing:.18em;margin-bottom:10px}h1{font-size:clamp(30px,5vw,48px);margin:0 0 7px;letter-spacing:-.04em}.artist{font-size:20px;color:#c7d0cd}.badge{display:inline-block;border:1px solid #285044;background:#0c1b17;border-radius:99px;padding:7px 11px;font-size:11px;font-weight:900;margin:22px 0}
+.progress{height:5px;background:#202b27;border-radius:99px;overflow:hidden}.progress span{display:block;width:62%;height:100%;background:var(--accent)}.times{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:7px}.controls{display:flex;align-items:center;gap:13px;margin-top:22px}.play{border:0;background:var(--accent);width:54px;height:54px;border-radius:50%;font-size:20px}.volume{width:160px;height:4px;background:#26312e}.volume:after{content:"";display:block;width:68%;height:100%;background:#cbd4d1}.onair{margin-left:auto;color:var(--muted);font-size:12px}
+.next{border-top:1px solid var(--line);margin-top:22px;padding-top:18px;display:flex;justify-content:space-between;gap:16px}.next small{display:block;color:var(--accent);font-weight:900;letter-spacing:.14em;margin-bottom:5px}.next strong{font-size:14px}
+.section{margin-top:32px}.sectionhead{display:flex;justify-content:space-between;align-items:end;margin-bottom:14px}.sectionhead h2{margin:0;font-size:22px}.sectionhead p{margin:0;color:var(--muted);font-size:12px}
+.history{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.track{background:var(--panel2);border:1px solid var(--line);border-radius:18px;overflow:hidden;min-width:0}.art{aspect-ratio:1;background:linear-gradient(145deg,#15241f,#09110f);display:grid;place-items:center;color:var(--accent);font-weight:950;font-size:34px}.info{padding:13px}.song{font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.trackartist{color:#aab5b1;font-size:13px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}.pill{font-size:9px;font-weight:900;letter-spacing:.06em;border:1px solid #2a4039;border-radius:99px;padding:5px 7px;color:#cbd5d1}.pill.program{color:var(--accent);border-color:#24594a}.footer{text-align:center;color:#596762;font-size:10px;letter-spacing:.17em;margin:25px 0 4px}
+@media(max-width:760px){body{padding:15px}.player{padding:17px}.playergrid{grid-template-columns:1fr}.cover{width:min(100%,330px);margin:auto}.history{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.track{min-width:210px;scroll-snap-align:start}.onair{display:none}.sectionhead p{display:none}}
+
+.nav{position:sticky;top:12px;z-index:20;max-width:720px;margin:0 auto 24px;display:flex;gap:6px;padding:6px;background:rgba(11,17,16,.88);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:999px}.nav button{flex:1;border:0;background:transparent;color:var(--muted);padding:11px 14px;border-radius:999px;font-weight:900;cursor:pointer}.nav button.active{background:var(--accent);color:#02110d}.page{display:none}.page.active{display:block}.schedule{display:grid;gap:10px}.show{display:grid;grid-template-columns:100px 1fr auto;align-items:center;gap:18px;padding:17px 19px}.showtime{color:var(--accent);font-weight:950}.showname{font-weight:900;font-size:17px}.showdesc{color:var(--muted);font-size:12px;margin-top:3px}.today{font-size:10px;border:1px solid #285044;border-radius:99px;padding:6px 9px;color:var(--accent);font-weight:900}.request{padding:25px}.request form{display:grid;grid-template-columns:1fr 1fr auto;gap:10px}.request input{min-width:0;background:#07100e;color:var(--text);border:1px solid var(--line);border-radius:14px;padding:14px;outline:none}.request button{border:0;border-radius:14px;padding:0 20px;background:var(--accent);font-weight:950}.stickyplayer{position:fixed;left:16px;right:16px;bottom:16px;z-index:50;max-width:1048px;margin:auto;background:rgba(8,15,13,.94);backdrop-filter:blur(22px);border:1px solid #29483f;border-radius:20px;padding:10px 14px;display:grid;grid-template-columns:46px minmax(0,1fr) auto auto auto;align-items:center;gap:12px;box-shadow:0 18px 60px #0008}.miniart{width:46px;height:46px;border-radius:12px;background:linear-gradient(145deg,#15241f,#09110f);display:grid;place-items:center;color:var(--accent);font-weight:950}.minitext{min-width:0}.minisong{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.miniartist{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.minilive{font-size:10px;color:var(--accent);font-weight:900;letter-spacing:.08em}.miniplay{width:40px;height:40px;border:0;border-radius:50%;background:var(--accent);font-weight:950;cursor:pointer}.spacer{height:92px}.daytabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.daytabs button{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:99px;padding:8px 12px;font-weight:800}.daytabs button.active{color:var(--accent);border-color:#285044}@media(max-width:760px){.nav{top:8px}.request form{grid-template-columns:1fr}.request button{padding:14px}.show{grid-template-columns:72px 1fr}.show .today{display:none}.stickyplayer{left:8px;right:8px;bottom:8px}.minilive{display:none}}
+
+.playedlist{display:grid;gap:9px}
+.playedrow{display:grid;grid-template-columns:64px 58px minmax(0,1fr) auto;gap:14px;align-items:center;padding:11px 14px}
+.playedtime{font-size:14px;font-weight:950;color:var(--accent);font-variant-numeric:tabular-nums}
+.playedcover{width:58px;height:58px;border-radius:12px;object-fit:cover;background:linear-gradient(145deg,#15241f,#09110f);border:1px solid var(--line)}
+.playedtitle{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.playedartist{color:var(--muted);font-size:12px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.playeddate{color:var(--muted);font-size:10px;margin-top:5px}
+.historyempty{padding:28px;text-align:center;color:var(--muted)}
+@media(max-width:760px){.playedrow{grid-template-columns:50px 48px minmax(0,1fr);gap:10px;padding:10px}.playedcover{width:48px;height:48px}.playedrow .pill{display:none}.nav{max-width:100%;overflow-x:auto;justify-content:flex-start}.nav button{min-width:max-content;padding-left:12px;padding-right:12px}}
+
+.programbreak{margin:24px 0 10px;padding:15px 17px;border:1px solid #285044;border-radius:16px;background:linear-gradient(90deg,rgba(0,239,181,.11),rgba(11,17,16,.95))}
+.programbreak:first-child{margin-top:0}
+.programbreaktop{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.programbreakname{font-size:15px;font-weight:950;letter-spacing:.06em}
+.programbreakname span{color:var(--accent)}
+.programbreaktime{font-size:11px;color:var(--muted);font-weight:800}
+.programbreakline{height:2px;margin-top:10px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:99px}
+
+.historynav{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:12px}
+.historynav button,.historynav input{border:1px solid var(--line);background:#0c1512;color:var(--text);border-radius:12px;padding:10px 13px;font-weight:900}
+.historynav button{cursor:pointer}
+.historynav button:hover{border-color:var(--accent);color:var(--accent)}
+.historydate{flex:1;text-align:center;font-weight:950;letter-spacing:.04em}
+.historydate small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+#historyDatePicker{color-scheme:dark;min-width:145px;cursor:pointer}
+@media(max-width:700px){
+ .historynav{flex-wrap:wrap}
+ .historydate{order:-1;flex-basis:100%}
+ .historynav button{flex:1}
+ #historyDatePicker{width:100%}
+}
+
+.launchcount{margin:18px 0;padding:18px;border:1px solid rgba(0,239,181,.32);border-radius:18px;background:linear-gradient(135deg,rgba(0,239,181,.10),rgba(8,14,12,.96));text-align:center}
+.launchcount .eyebrow{font-size:10px;font-weight:950;letter-spacing:.18em;color:var(--accent)}
+.launchcount h3{margin:7px 0 13px;font-size:18px}
+.countgrid{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+.countbox{min-width:72px;padding:11px 9px;border:1px solid var(--line);border-radius:13px;background:#09110f}
+.countnum{display:block;font-size:24px;font-weight:950;color:var(--accent);line-height:1}
+.countlabel{display:block;margin-top:5px;font-size:9px;color:var(--muted);font-weight:900;letter-spacing:.09em}
+.launchdate{margin-top:11px;font-size:10px;color:var(--muted);font-weight:800}
+
+.streamstate{font-size:9px;font-weight:900;letter-spacing:.08em;color:var(--muted)}
+.streamstate.on{color:var(--accent)}
+
+.volslider{width:150px;accent-color:var(--accent);cursor:pointer}
+.volicon{font-size:16px}
+.likebtn{border:1px solid #2a4039;background:#0b1512;color:#dbe4e1;border-radius:50%;width:42px;height:42px;font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.likebtn:hover,.likebtn.liked{color:var(--accent);border-color:var(--accent);background:rgba(0,239,181,.08)}
+.minilike{width:38px;height:38px;font-size:21px}
+@media(max-width:560px){.volslider{width:100px}.volicon{display:none}}
+
+.cover.hascover:before,.miniart.hascover{color:transparent}
+.cover.hascover:before{content:""}
+.cover.hascover,.miniart.hascover{background-size:cover;background-position:center;background-repeat:no-repeat}
+
+.replaycard{min-width:245px;padding:12px 14px;border:1px solid rgba(0,239,181,.28);border-radius:14px;background:rgba(0,239,181,.045);text-align:right}
+.replaytag{font-size:13px;font-weight:950;letter-spacing:.08em;color:var(--accent)}
+.replaycard strong{display:block;margin-top:2px;color:#fff;font-size:12px}
+.replaydesc{display:block;margin-top:5px;color:var(--muted);font-size:10px}
+.replayclock{display:inline-block;margin-top:8px;padding:5px 8px;border-radius:999px;background:rgba(0,239,181,.10);color:var(--accent);font-size:9px;font-weight:950}
+@media(max-width:650px){.replaycard{min-width:0;text-align:left;width:100%}}
+
+.daytabs{display:flex;gap:8px;margin:12px 0 14px}
+.daytab{border:1px solid var(--line);background:#0b1210;color:#9ca7a3;border-radius:999px;padding:9px 13px;font-weight:950;cursor:pointer}
+.daytab.active{border-color:var(--accent);color:var(--accent);background:rgba(0,239,181,.06)}
+.programlist{display:grid;gap:10px}
+.programrow{display:grid;grid-template-columns:130px 1fr auto;align-items:center;gap:16px;padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:#0a100e}
+.programtime{color:var(--accent);font-weight:950}
+.programname{font-size:16px;font-weight:950}
+.programdesc{font-size:11px;color:var(--muted);margin-top:3px}
+.programlive{font-size:9px;font-weight:950;color:#07110d;background:var(--accent);border-radius:999px;padding:6px 9px}
+@media(max-width:650px){.programrow{grid-template-columns:80px 1fr}.programlive{grid-column:2;justify-self:start}}
+
+.transition-banner{
+  margin:0 0 14px;
+  padding:11px 16px;
+  border:1px solid rgba(0,239,181,.28);
+  border-radius:14px;
+  background:rgba(0,239,181,.055);
+  text-align:center;
+}
+.transition-banner strong{
+  display:block;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.06em;
+}
+.transition-banner span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.04em;
+}
+</style></head><body>
+<audio id="rehitsAudio" preload="none"></audio>
+
+<div class="launchcount" id="launchCountdown">
+  <div class="eyebrow">SNART PÅ LUFTA</div>
+  <h3>HER KOMMER <span style="color:var(--accent)">RE:HITS</span> OM…</h3>
+  <div class="countgrid">
+    <div class="countbox"><span class="countnum" id="cdDays">--</span><span class="countlabel">DAGER</span></div>
+    <div class="countbox"><span class="countnum" id="cdHours">--</span><span class="countlabel">TIMER</span></div>
+    <div class="countbox"><span class="countnum" id="cdMinutes">--</span><span class="countlabel">MINUTTER</span></div>
+    <div class="countbox"><span class="countnum" id="cdSeconds">--</span><span class="countlabel">SEKUNDER</span></div>
+  </div><main>
+<div class="brand"><div class="logo"><span class="re">RE</span><span class="colon">:</span>HITS</div><div class="slogan">HITS DIFFERENT.</div></div>
+<nav class="nav"><button class="active" data-page="home">HJEM</button><button data-page="programs">PROGRAMMER</button><button data-page="played">SIST SPILT</button></nav>
+<section id="home" class="page active">
+<div class="transition-banner">
+  <strong>THE HITS BLIR RE:HITS FRA 01.01.2027</strong>
+  <span>En ny æra starter.</span>
+</div>
+
+<section class="card player"><div class="playergrid"><div class="cover" id="mainCover"><div class="live"><i></i><span id="currentProgram">RE:HITS</span></div></div><div><div class="label">RE:NÅ</div><h1 id="song">Song Title</h1><div class="artist" id="artist">Artist Name</div><div class="badge">RE:FRESH</div><div class="progress"><span></span></div><div class="times"><span>2:04</span><span>3:18</span></div><div class="controls"><button class="play masterplay" type="button">▶</button><span class="volicon">🔊</span><input class="volslider" id="mainVolume" type="range" min="0" max="100" value="80" aria-label="Volum"><button class="likebtn" id="mainLike" type="button" aria-label="Lik denne låten">♡</button><div class="onair">● RE:HITS LIVE</div></div><div class="next"><div><small>RE:NESTE</small><strong id="nextSong">Next Artist — Next Song</strong></div><div class="accent"><strong>RE:PLAY</strong><br><small>NESTE HELE TIME</small></div></div></div></div></section>
+<section class="section"><div class="sectionhead"><h2><span class="accent">RE:</span>SIST</h2><p>DET DU NETTOPP HØRTE</p></div><div class="history"><div class="track"><div class="art" id="recentCover0">01</div><div class="info"><div class="song" id="recentTitle0">Last Song</div><div class="trackartist" id="recentArtist0">Artist One</div><div class="meta"><span class="pill program">RE:FRESH</span><span class="pill">POP</span></div></div></div><div class="track"><div class="art" id="recentCover1">02</div><div class="info"><div class="song" id="recentTitle1">Previous Track</div><div class="trackartist" id="recentArtist1">Artist Two</div><div class="meta"><span class="pill program">RE:FRESH</span><span class="pill">DANCE</span></div></div></div><div class="track"><div class="art" id="recentCover2">03</div><div class="info"><div class="song" id="recentTitle2">Throwback</div><div class="trackartist" id="recentArtist2">Artist Three</div><div class="meta"><span class="pill program">RE:PLAY</span><span class="pill">2000s</span></div></div></div><div class="track"><div class="art" id="recentCover3">04</div><div class="info"><div class="song" id="recentTitle3">Morning Track</div><div class="trackartist" id="recentArtist3">Artist Four</div><div class="meta"><span class="pill program">DANCE MORGEN</span><span class="pill">DANCE</span></div></div></div></div></section></section>
+
+<section id="programs" class="page">
+  <div class="sectionhead"><h2><span>RE:</span>PROGRAMMER</h2><small>HELE UKEN PÅ RE:HITS</small></div>
+
+  <div class="daytabs">
+    <button class="daytab active" data-day="weekday">MAN–FRE</button>
+    <button class="daytab" data-day="saturday">LØRDAG</button>
+    <button class="daytab" data-day="sunday">SØNDAG</button>
+  </div>
+
+  <div id="programList" class="programlist"></div>
+</section>
+
+<section id="played" class="page">
+<div class="sectionhead"><h2><span class="accent">RE:</span>SIST SPILT</h2><p>HELE SPILLEHISTORIKKEN</p></div>
+
+<div class="card historynav">
+  <button type="button" id="prevHistoryDay">‹ FORRIGE</button>
+  <div class="historydate" id="historyDateLabel">I DAG<small>SPILLEHISTORIKK</small></div>
+  <button type="button" id="nextHistoryDay">NESTE ›</button>
+  <input id="historyDatePicker" type="date" aria-label="Velg dato">
+</div>
+<div id="playedList" class="playedlist"><div class="card historyempty">Laster spillehistorikk …</div></div>
+
+</section>
+
+<div class="footer">RE:HITS • HITS DIFFERENT.</div><div class="spacer"></div></main>
+<div class="stickyplayer"><div class="miniart" id="miniCover">RE:</div><div class="minitext"><div class="minisong" id="miniSong">Song Title</div><div class="miniartist" id="miniArtist">Artist Name</div></div><div class="minilive">● <span id="miniProgram">RE:HITS</span></div><button class="minilike likebtn" id="miniLike" type="button" aria-label="Lik denne låten">♡</button><button class="miniplay masterplay" type="button">▶</button></div>
+<script>
+// Playback is controlled by the real RE:HITS audio player below.
+
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById(b.dataset.page).classList.add('active');
+  scrollTo({top:0,behavior:'smooth'});
+});
+
+const wishForm=document.getElementById('wish');
+if(wishForm){
+  wishForm.onsubmit=e=>{
+    e.preventDefault();
+    alert('RE:QUEST er klar for å kobles til ønskesystemet ditt.');
+  };
+}
+
+
+const API_BASE='http://127.0.0.1:8765';
+function splitTrack(value=''){const p=value.split(' - ');return p.length>1?{artist:p.shift().trim(),title:p.join(' - ').trim()}:{artist:'RE:HITS',title:value||'Ukjent låt'}}
+function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function playedTime(iso){if(!iso)return'--:--';const d=new Date(iso);return isNaN(d)?'--:--':d.toLocaleTimeString('nb-NO',{hour:'2-digit',minute:'2-digit'})}
+function playedDate(iso){if(!iso)return'';const d=new Date(iso),t=new Date();if(isNaN(d))return'';const same=d.getFullYear()===t.getFullYear()&&d.getMonth()===t.getMonth()&&d.getDate()===t.getDate();return same?'I DAG':d.toLocaleDateString('nb-NO',{day:'2-digit',month:'2-digit',year:'numeric'})}
+function historyRow(i){const t=splitTrack(i.title);const c=i.cover?`<img class="playedcover" src="${esc(i.cover)}" alt="">`:`<div class="playedcover" style="display:grid;place-items:center;color:var(--accent);font-weight:950">RE:</div>`;return `<div class="card playedrow"><div class="playedtime">${playedTime(i.played_at)}</div>${c}<div style="min-width:0"><div class="playedtitle">${esc(t.title)}</div><div class="playedartist">${esc(t.artist)}</div><div class="playeddate">${playedDate(i.played_at)}</div></div><span class="pill program">${esc(i.program||'RE:HITS')}</span></div>`}
+
+function renderGroupedHistory(items){
+  let html='', previousProgram=null;
+  for(const item of items){
+    const program=item.program || 'RE:HITS';
+    if(program!==previousProgram){
+      const time=playedTime(item.played_at);
+      html+=`<div class="programbreak">
+        <div class="programbreaktop">
+          <div class="programbreakname"><span>RE:</span> ${esc(program.replace(/^THE HITS\s*/i,''))}</div>
+          <div class="programbreaktime">PROGRAMSKIFTE • ${time}</div>
+        </div>
+        <div class="programbreakline"></div>
+      </div>`;
+      previousProgram=program;
+    }
+    html+=historyRow(item);
+  }
+  return html;
+}
+
+
+let allHistory=[];
+let selectedHistoryDate=new Date();
+
+function historyDateKey(v){
+  const d=v instanceof Date?v:new Date(v);
+  if(isNaN(d.getTime())) return '';
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function refreshHistoryView(){
+  const key=historyDateKey(selectedHistoryDate);
+  const todayKey=historyDateKey(new Date());
+  const picker=document.getElementById('historyDatePicker');
+  picker.value=key;
+  picker.max=todayKey;
+
+  const pretty=selectedHistoryDate.toLocaleDateString('nb-NO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('historyDateLabel').innerHTML=
+    `${key===todayKey?'I DAG – ':''}${pretty.toUpperCase()}<small>SPILLEHISTORIKK</small>`;
+
+  const next=document.getElementById('nextHistoryDay');
+  next.disabled=key>=todayKey;
+  next.style.opacity=next.disabled?'.35':'1';
+
+  const items=allHistory.filter(item=>historyDateKey(item.played_at)===key);
+  document.getElementById('playedList').innerHTML=
+    items.length ? renderGroupedHistory(items) :
+    '<div class="card historyempty">Ingen låter lagret for denne dagen.</div>';
+}
+async function loadFullHistory(){
+  const box=document.getElementById('playedList');
+  try{
+    const r=await fetch(API_BASE+'/api/history',{cache:'no-store'});
+    if(!r.ok) throw new Error('API');
+    const d=await r.json();
+    allHistory=Array.isArray(d.history)?d.history:[];
+    refreshHistoryView();
+  }catch(e){
+    box.innerHTML='<div class="card historyempty">Kunne ikke hente spillehistorikken. Start RE:HITS-boten og prøv igjen.</div>';
+  }
+}
+document.getElementById('prevHistoryDay').addEventListener('click',()=>{
+  selectedHistoryDate=new Date(selectedHistoryDate.getFullYear(),selectedHistoryDate.getMonth(),selectedHistoryDate.getDate()-1);
+  refreshHistoryView();
+});
+document.getElementById('nextHistoryDay').addEventListener('click',()=>{
+  const d=new Date(selectedHistoryDate.getFullYear(),selectedHistoryDate.getMonth(),selectedHistoryDate.getDate()+1);
+  if(historyDateKey(d)<=historyDateKey(new Date())) selectedHistoryDate=d;
+  refreshHistoryView();
+});
+document.getElementById('historyDatePicker').addEventListener('change',(e)=>{
+  if(!e.target.value) return;
+  const [y,m,d]=e.target.value.split('-').map(Number);
+  selectedHistoryDate=new Date(y,m-1,d);
+  refreshHistoryView();
+});
+loadFullHistory();
+setInterval(loadFullHistory,30000);
+
+
+// Programnavn hentes nå direkte fra botens /api/status.
+</script>
+<script>
+window.addEventListener('DOMContentLoaded', function(){
+  try {
+    if (typeof loadFullHistory === 'function') loadFullHistory();
+  } catch(e) {
+    console.error('RE:HITS history init:', e);
+    const box=document.getElementById('playedList');
+    if(box) box.innerHTML='<div class="card historyempty">Kunne ikke laste spillehistorikken.</div>';
+  }
+});
+</script>
+
+
+
+  <div class="launchdate">RE:HITS • 01.01.2027</div>
+</div>
+
+
+<script>
+(function(){
+  const target=new Date(2027,0,1,0,0,0);
+  function tickLaunch(){
+    let diff=target-new Date();
+    const wrap=document.getElementById('launchCountdown');
+    if(!wrap)return;
+    if(diff<=0){
+      wrap.innerHTML='<div class="eyebrow">RE:HITS</div><h3>VI ER PÅ LUFTA! 🔥</h3>';
+      return;
+    }
+    const days=Math.floor(diff/86400000); diff%=86400000;
+    const hours=Math.floor(diff/3600000); diff%=3600000;
+    const mins=Math.floor(diff/60000); diff%=60000;
+    const secs=Math.floor(diff/1000);
+    document.getElementById('cdDays').textContent=days;
+    document.getElementById('cdHours').textContent=String(hours).padStart(2,'0');
+    document.getElementById('cdMinutes').textContent=String(mins).padStart(2,'0');
+    document.getElementById('cdSeconds').textContent=String(secs).padStart(2,'0');
+  }
+  tickLaunch();
+  setInterval(tickLaunch,1000);
+})();
+</script>
+
+
+<script>
+(function(){
+  const audio=document.getElementById('rehitsAudio');
+
+  // Uses the same computer/server hostname as the website.
+  // Icecast in bot.py uses port 8000 and mount /thehits.
+  const STREAM_URL=(location.protocol==='file:' ? 'http://127.0.0.1:8000/thehits'
+                    : location.protocol+'//'+location.hostname+':8000/thehits');
+  const API_URL=(location.protocol==='file:' ? 'http://127.0.0.1:8765'
+                 : location.protocol+'//'+location.hostname+':8765');
+
+  audio.src=STREAM_URL;
+  audio.volume=.8;
+
+  const volume=document.getElementById('mainVolume');
+  if(volume){
+    volume.addEventListener('input',()=>{ audio.volume=Number(volume.value)/100; });
+    audio.addEventListener('volumechange',()=>{ volume.value=Math.round(audio.volume*100); });
+  }
+
+  let likedTrack='';
+  function syncLikeButtons(liked){
+    document.querySelectorAll('.likebtn').forEach(b=>{
+      b.textContent=liked?'♥':'♡';
+      b.classList.toggle('liked',liked);
+    });
+  }
+  async function likeCurrentTrack(){
+    const song=(document.getElementById('song')?.textContent||'').trim();
+    const artist=(document.getElementById('artist')?.textContent||'').trim();
+    const track=(artist && song)?artist+' - '+song:song;
+    if(!track || song==='Song Title' || song==='Ingen sang') return;
+    const liked = likedTrack!==track;
+    likedTrack=liked?track:'';
+    syncLikeButtons(liked);
+    if(liked){
+      try{
+        await fetch(API_URL+'/api/favorite',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({title:track})
+        });
+      }catch(e){ console.debug('Favoritt kunne ikke lagres i API ennå.'); }
+    }
+  }
+  document.querySelectorAll('.likebtn').forEach(b=>b.addEventListener('click',e=>{
+    e.preventDefault(); e.stopPropagation(); likeCurrentTrack();
+  }));
+
+
+  function parseTrack(value){
+    const s=(value||'').trim();
+    const m=s.match(/^(.+?)\s+[\-–—]\s+(.+)$/);
+    return m ? {artist:m[1].trim(),title:m[2].trim()} : {artist:'RE:HITS',title:s||'Ingen sang'};
+  }
+
+  function setText(selector,value){
+    document.querySelectorAll(selector).forEach(el=>el.textContent=value);
+  }
+  function setImages(url){
+    const main=document.getElementById('mainCover');
+    const mini=document.getElementById('miniCover');
+    [main,mini].forEach(el=>{
+      if(!el)return;
+      if(url){
+        el.style.backgroundImage=`url("${url}")`;
+        el.classList.add('hascover');
+      }else{
+        el.style.backgroundImage='';
+        el.classList.remove('hascover');
+      }
+    });
+  }
+
+  function syncButtons(){
+    const playing=!audio.paused;
+    document.querySelectorAll('button').forEach(btn=>{
+      const t=(btn.textContent||'').trim();
+      if(t==='▶'||t==='⏸'||btn.classList.contains('play')){
+        btn.textContent=playing?'⏸':'▶';
+        btn.setAttribute('aria-label',playing?'Pause RE:HITS':'Spill RE:HITS');
+      }
+    });
+  }
+
+  document.addEventListener('click',async e=>{
+    const btn=e.target.closest('button');
+    if(!btn)return;
+    const t=(btn.textContent||'').trim();
+    if(!(t==='▶'||t==='⏸'||btn.classList.contains('play')))return;
+    e.preventDefault();
+    try{
+      if(audio.paused) await audio.play(); else audio.pause();
+    }catch(err){
+      console.error('RE:HITS stream:',err);
+      alert('Kunne ikke starte RE:HITS-streamen. Sjekk at Icecast og boten kjører.');
+    }
+    syncButtons();
+  },true);
+
+  audio.addEventListener('play',syncButtons);
+  audio.addEventListener('pause',syncButtons);
+
+  async function updateLive(){
+    try{
+      const r=await fetch(API_URL+'/api/status',{cache:'no-store'});
+      if(!r.ok)throw 0;
+      const d=await r.json();
+      const track=parseTrack(d.title);
+      const next=parseTrack(d.next);
+
+      // Update known IDs from the V3 design when present.
+      const ids={
+        song:track.title, artist:track.artist,
+        miniSong:track.title, miniArtist:track.artist,
+        program:d.program||'RE:HITS',
+        miniProgram:d.program||'RE:HITS',
+        nextSong:(d.next && String(d.next).trim()) ? String(d.next).trim() : 'Neste låt kommer snart'
+      };
+      Object.entries(ids).forEach(([id,val])=>{
+        const el=document.getElementById(id); if(el)el.textContent=val;
+      });
+
+      // Update program/live badges that use common classes.
+      const cp=document.getElementById('currentProgram');
+      if(cp && d.program) cp.textContent=d.program;
+
+      setImages(d.cover);
+      const recent=Array.isArray(d.history)?d.history.slice(0,4):[];
+      recent.forEach((item,i)=>{
+        const tr=parseTrack(item.title);
+        const te=document.getElementById('recentTitle'+i);
+        const ae=document.getElementById('recentArtist'+i);
+        const ce=document.getElementById('recentCover'+i);
+        if(te) te.textContent=tr.title;
+        if(ae) ae.textContent=tr.artist;
+        if(ce && item.cover){
+          ce.style.backgroundImage=`url("${item.cover}")`;
+          ce.style.backgroundSize='cover';
+          ce.style.backgroundPosition='center';
+          ce.textContent='';
+        }
+      });
+    }catch(e){
+      console.debug('RE:HITS API ikke tilgjengelig ennå.');
+    }
+  }
+  updateLive();
+  setInterval(updateLive,5000);
+})();
+</script>
+
+
+<script>
+(function(){
+  function updateReplayClock(){
+    const el=document.getElementById('replayClock');
+    if(!el)return;
+    const now=new Date();
+    const next=new Date(now);
+    next.setMinutes(60,0,0);
+    let s=Math.max(0,Math.floor((next-now)/1000));
+    const m=Math.floor(s/60), sec=s%60;
+    el.textContent=`Neste hele time om ${m}:${String(sec).padStart(2,'0')}`;
+  }
+  updateReplayClock();
+  setInterval(updateReplayClock,1000);
+})();
+</script>
+
+
+<script>
+(function(){
+  const schedules={
+    weekday:[
+      ['00–06','The Hits NON STOP NIGHT','The biggest hits through the night.'],
+      ['06–12','Dance Morgen','The perfect start to your day.'],
+      ['12–15','THE HITS RE:FRESH','Nye og trendende hits med energi.'],
+      ['15–16','The Hits NON STOP','The biggest hits — non stop.'],
+      ['16–18','The Hits NON STOP','The biggest hits — non stop.'],
+      ['18–00','The Hits NON STOP','The biggest hits — non stop.']
+    ],
+    saturday:[
+      ['00–06','The Hits NON STOP','Hits gjennom natten.'],
+      ['06–18','Non Stop Helg','Helgens største hits.'],
+      ['18–22','The Hits MIX','Dance og partyhits.'],
+      ['22–00','The Hits NON STOP','The biggest hits — non stop.']
+    ],
+    sunday:[
+      ['00–06','The Hits NON STOP','Hits gjennom natten.'],
+      ['06–18','Non Stop Helg','Helgens største hits.'],
+      ['18–22','The Hits MIX','Dance og partyhits.'],
+      ['22–00','The Hits NON STOP','The biggest hits — non stop.']
+    ]
+  };
+
+  let selectedDay='weekday';
+
+  function currentSlot(day,time){
+    const now=new Date();
+    const wd=now.getDay();
+    const todayKey=(wd===0?'sunday':wd===6?'saturday':'weekday');
+    if(day!==todayKey)return false;
+    const h=now.getHours();
+    const [a,b]=time.split('–').map(Number);
+    if(a===0 && b===6)return h<6;
+    if(b===0)return h>=a;
+    return h>=a && h<b;
+  }
+
+  function renderPrograms(){
+    const box=document.getElementById('programList');
+    if(!box)return;
+    box.innerHTML=schedules[selectedDay].map(([time,name,desc])=>`
+      <div class="programrow">
+        <div class="programtime">${time}</div>
+        <div><div class="programname">${name}</div><div class="programdesc">${desc}</div></div>
+        ${currentSlot(selectedDay,time)?'<div class="programlive">● LIVE</div>':''}
+      </div>`).join('');
+  }
+
+  document.querySelectorAll('.daytab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      selectedDay=btn.dataset.day;
+      document.querySelectorAll('.daytab').forEach(b=>b.classList.toggle('active',b===btn));
+      renderPrograms();
+    });
+  });
+  renderPrograms();
+  setInterval(renderPrograms,60000);
+})();
+</script>
+
+</body></html>
