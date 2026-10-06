@@ -133,7 +133,7 @@ main{max-width:1080px;margin:auto}.brand{text-align:center;margin:6px 0 26px}.lo
   <span>En ny æra starter.</span>
 </div>
 
-<section class="card player"><div class="playergrid"><div class="cover" id="mainCover"><div class="live"><i></i><span id="currentProgram">RE:HITS</span></div></div><div><div class="label">RE:NÅ</div><h1 id="song">Song Title</h1><div class="artist" id="artist">Artist Name</div><div class="badge">RE:FRESH</div><div class="progress"><span></span></div><div class="times"><span>2:04</span><span>3:18</span></div><div class="controls"><button class="play masterplay" type="button">▶</button><span class="volicon">🔊</span><input class="volslider" id="mainVolume" type="range" min="0" max="100" value="80" aria-label="Volum"><button class="likebtn" id="mainLike" type="button" aria-label="Lik denne låten">♡</button><div class="onair">● RE:HITS LIVE</div></div><div class="next"><div><small>RE:NESTE</small><strong id="nextSong">Next Artist — Next Song</strong></div><div class="accent"><strong>RE:PLAY</strong><br><small>NESTE HELE TIME</small></div></div></div></div></section>
+<section class="card player"><div class="playergrid"><div class="cover" id="mainCover"><div class="live"><i></i><span id="currentProgram">RE:HITS</span></div></div><div><div class="label">RE:NÅ</div><h1 id="song">Song Title</h1><div class="artist" id="artist">Artist Name</div><div class="badge">RE:FRESH</div><div class="progress"><span id="songProgress" style="width:0%"></span></div><div class="times"><span id="songElapsed">0:00</span><span id="songDuration">--:--</span></div><div class="controls"><button class="play masterplay" type="button">▶</button><span class="volicon">🔊</span><input class="volslider" id="mainVolume" type="range" min="0" max="100" value="80" aria-label="Volum"><button class="likebtn" id="mainLike" type="button" aria-label="Lik denne låten">♡</button><div class="onair">● RE:HITS LIVE</div></div><div class="next"><div><small>RE:NESTE</small><strong id="nextSong">Next Artist — Next Song</strong></div><div class="accent"><strong>RE:PLAY</strong><br><small>NESTE HELE TIME</small></div></div></div></div></section>
 <section class="section"><div class="sectionhead"><h2><span class="accent">RE:</span>SIST</h2><p>DET DU NETTOPP HØRTE</p></div><div class="history"><div class="track"><div class="art" id="recentCover0">01</div><div class="info"><div class="song" id="recentTitle0">Last Song</div><div class="trackartist" id="recentArtist0">Artist One</div><div class="meta"><span class="pill program">RE:FRESH</span><span class="pill">POP</span></div></div></div><div class="track"><div class="art" id="recentCover1">02</div><div class="info"><div class="song" id="recentTitle1">Previous Track</div><div class="trackartist" id="recentArtist1">Artist Two</div><div class="meta"><span class="pill program">RE:FRESH</span><span class="pill">DANCE</span></div></div></div><div class="track"><div class="art" id="recentCover2">03</div><div class="info"><div class="song" id="recentTitle2">Throwback</div><div class="trackartist" id="recentArtist2">Artist Three</div><div class="meta"><span class="pill program">RE:PLAY</span><span class="pill">2000s</span></div></div></div><div class="track"><div class="art" id="recentCover3">04</div><div class="info"><div class="song" id="recentTitle3">Morning Track</div><div class="trackartist" id="recentArtist3">Artist Four</div><div class="meta"><span class="pill program">DANCE MORGEN</span><span class="pill">DANCE</span></div></div></div></div></section></section>
 
 <section id="programs" class="page">
@@ -183,7 +183,7 @@ if(wishForm){
 }
 
 
-const API_BASE = "https://tires-initiatives-plymouth-locking.trycloudflare.com";
+const API_BASE='https://til-voluntary-benjamin-dig.trycloudflare.com';
 function splitTrack(value=''){const p=value.split(' - ');return p.length>1?{artist:p.shift().trim(),title:p.join(' - ').trim()}:{artist:'RE:HITS',title:value||'Ukjent låt'}}
 function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function playedTime(iso){if(!iso)return'--:--';const d=new Date(iso);return isNaN(d)?'--:--':d.toLocaleTimeString('nb-NO',{hour:'2-digit',minute:'2-digit'})}
@@ -322,8 +322,8 @@ window.addEventListener('DOMContentLoaded', function(){
 
   // Uses the same computer/server hostname as the website.
   // Icecast in bot.py uses port 8000 and mount /thehits.
-  const STREAM_URL = "https://symbols-bigger-repair-ceramic.trycloudflare.com/thehits";
-  const API_URL = "https://tires-initiatives-plymouth-locking.trycloudflare.com";
+  const STREAM_URL='https://behalf-karaoke-shelf-tamil.trycloudflare.com/thehits';
+  const API_URL='https://til-voluntary-benjamin-dig.trycloudflare.com';
 
   audio.src=STREAM_URL;
   audio.volume=.8;
@@ -417,11 +417,56 @@ window.addEventListener('DOMContentLoaded', function(){
   audio.addEventListener('play',syncButtons);
   audio.addEventListener('pause',syncButtons);
 
+
+  let liveStartedAt=null;
+  let liveDuration=0;
+
+  function formatTime(seconds){
+    seconds=Math.max(0,Math.floor(Number(seconds)||0));
+    const m=Math.floor(seconds/60);
+    const s=seconds%60;
+    return `${m}:${String(s).padStart(2,'0')}`;
+  }
+
+  function renderSongProgress(){
+    const bar=document.getElementById('songProgress');
+    const elapsedEl=document.getElementById('songElapsed');
+    const durationEl=document.getElementById('songDuration');
+    if(!bar || !elapsedEl || !durationEl)return;
+
+    if(!liveStartedAt || !(liveDuration>0)){
+      bar.style.width='0%';
+      elapsedEl.textContent='0:00';
+      durationEl.textContent='--:--';
+      return;
+    }
+
+    const started=new Date(liveStartedAt).getTime();
+    if(!Number.isFinite(started)){
+      bar.style.width='0%';
+      elapsedEl.textContent='0:00';
+      durationEl.textContent=formatTime(liveDuration);
+      return;
+    }
+
+    const elapsed=Math.max(0,(Date.now()-started)/1000);
+    const shown=Math.min(elapsed,liveDuration);
+    const pct=Math.max(0,Math.min(100,(shown/liveDuration)*100));
+    bar.style.width=pct+'%';
+    elapsedEl.textContent=formatTime(shown);
+    durationEl.textContent=formatTime(liveDuration);
+  }
+
+  setInterval(renderSongProgress,1000);
+
   async function updateLive(){
     try{
       const r=await fetch(API_URL+'/api/status',{cache:'no-store'});
       if(!r.ok)throw 0;
       const d=await r.json();
+      liveStartedAt=d.started_at || null;
+      liveDuration=Number(d.duration)||0;
+      renderSongProgress();
       const track=parseTrack(d.title);
       const next=parseTrack(d.next);
 
