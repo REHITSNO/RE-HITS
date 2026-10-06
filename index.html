@@ -186,6 +186,11 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 </div>
 
 <section class="card player"><div class="playergrid"><div class="cover" id="mainCover"><div class="live"><i></i><span id="currentProgram">RE:HITS</span></div></div><div><div class="label">RE:NÅ</div><h1 id="song">Song Title</h1><div class="artist" id="artist">Artist Name</div><div class="badge" id="programBadge">RE:HITS</div><div class="segmentprogress" id="segmentProgress" aria-label="Låtprogresjon"></div><div class="radio-times"><span id="songElapsed">0:00</span><strong>● LIVE • <span id="songDuration">--:--</span></strong></div><div class="controls"><button class="play masterplay" type="button">▶</button><span class="volicon">🔊</span><input class="volslider" id="mainVolume" type="range" min="0" max="100" value="80" aria-label="Volum"><button class="likebtn" id="mainLike" type="button" aria-label="Lik denne låten">♡</button><div class="onair">● RE:HITS LIVE</div></div><div class="nextpanel"><div class="nextbox"><small>RE:NESTE</small><strong id="nextSong">Neste låt kommer snart</strong></div><div class="replaybox"><small>↶ RE:PLAY</small><strong>ET TILBAKEBLIKK HVER TIME</strong><span id="replayInlineClock">Neste :00</span></div></div></div></div></section>
+<div id="rehitsOffline" class="rehits-offline" role="status" aria-live="polite">
+  <strong><span class="dot"></span>RE:HITS ER MIDLERTIDIG OFFLINE</strong>
+  <span>Vi er straks tilbake. Prøv igjen om litt.</span>
+</div>
+
 <div class="onairstrip"><div class="onairdot">● ON AIR</div><div><div class="onairlabel">NÅ PÅ RE:HITS</div><div class="onairvalue" id="onAirProgram">RE:HITS</div></div><div class="onairlabel">NESTE PROGRAM</div><div class="onairvalue" id="onAirNextProgram">—</div></div>
 
 <section class="card freshhero">
@@ -853,6 +858,57 @@ window.addEventListener('DOMContentLoaded', function(){
     const obs=new MutationObserver(syncPlayerArtwork);
     obs.observe(cover,{attributes:true,attributeFilter:['src']});
     cover.addEventListener('load',syncPlayerArtwork);
+  });
+})();
+</script>
+
+
+<script>
+/* RE:HITS V4.7 — show a clear message when stream/API is unavailable */
+(function(){
+  const OFFLINE_DELAY = 12000;
+  let failTimer = null;
+
+  function box(){ return document.getElementById('rehitsOffline'); }
+  function setOffline(on){
+    const el=box();
+    if(el) el.classList.toggle('show',!!on);
+  }
+  function delayedOffline(){
+    clearTimeout(failTimer);
+    failTimer=setTimeout(()=>setOffline(true),OFFLINE_DELAY);
+  }
+  function onlineAgain(){
+    clearTimeout(failTimer);
+    setOffline(false);
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    const audio=document.querySelector('audio');
+    if(audio){
+      ['playing','canplay'].forEach(ev=>audio.addEventListener(ev,onlineAgain));
+      ['error','stalled'].forEach(ev=>audio.addEventListener(ev,delayedOffline));
+    }
+
+    /* Also check the same status API the page uses, so a stopped radio/API
+       gets a friendly state even before the listener presses Play. */
+    async function health(){
+      try{
+        const base=(typeof API_URL!=='undefined' && API_URL) ||
+                   (typeof API_BASE!=='undefined' && API_BASE) || '';
+        if(!base) return;
+        const url=/\/api\/status\/?$/.test(base)?base:base.replace(/\/$/,'')+'/api/status';
+        const r=await fetch(url,{cache:'no-store'});
+        if(!r.ok) throw new Error('status');
+        const d=await r.json();
+        if(d && d.live===false) delayedOffline();
+        else onlineAgain();
+      }catch(e){
+        delayedOffline();
+      }
+    }
+    health();
+    setInterval(health,15000);
   });
 })();
 </script>
