@@ -136,7 +136,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 .freshhead{position:relative;display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:18px}.freshhead h2{font-size:30px;margin:0}.freshhead p{margin:5px 0 0;color:var(--muted);font-size:12px}.freshlive{border:1px solid #285044;border-radius:999px;padding:7px 10px;color:var(--accent);font-size:9px;font-weight:950}
 .freshgrid{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.freshitem{padding:15px;border:1px solid var(--line);border-radius:16px;background:#09110f;min-width:0}.freshtag{display:inline-block;color:#06110e;background:var(--accent);border-radius:999px;padding:5px 7px;font-size:8px;font-weight:950;letter-spacing:.08em}.freshtitle{font-weight:950;margin-top:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.freshartist{font-size:11px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .replayfeature{margin-top:18px;padding:0;display:grid;grid-template-columns:260px 1fr;overflow:hidden}.replayfeature img{width:100%;height:100%;object-fit:cover;min-height:180px}.replaycopy{padding:22px;align-self:center}.replaycopy h2{margin:0;font-size:26px}.replaycopy p{color:var(--muted);font-size:12px;max-width:520px}.replaycount{display:inline-block;margin-top:8px;border:1px solid #285044;border-radius:999px;padding:7px 10px;color:var(--accent);font-size:10px;font-weight:950}
-.cover.replaymode{background-image:url("replay-banner.png")!important;background-size:cover!important;background-position:center!important;border-color:rgba(0,239,181,.55);box-shadow:0 0 45px rgba(0,239,181,.12)}.cover.replaymode:before{content:""!important}
+.cover.replaymode{border:1px solid rgba(0,239,181,.75);box-shadow:0 0 0 1px rgba(0,239,181,.12),0 0 28px rgba(0,239,181,.14)}.cover.replaymode:before{content:""!important}
 @media(max-width:760px){.nextpanel{grid-template-columns:1fr}.replaybox{text-align:left}.onairstrip{grid-template-columns:auto 1fr}.freshgrid{display:flex;overflow-x:auto}.freshitem{min-width:210px}.replayfeature{grid-template-columns:1fr}.replayfeature img{max-height:220px}.segmentprogress{gap:3px}}
 
 
@@ -194,7 +194,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 </section>
 
 <section class="card replayfeature">
-  <img src="replay-banner.png" alt="The Hits RE:PLAY">
+  <img src=(d.cover||'') alt="The Hits RE:PLAY">
   <div class="replaycopy"><div class="label">↶ RE:PLAY</div><h2>ET TILBAKEBLIKK HVER HELE TIME</h2><p>Én låt fra arkivet får nytt liv på RE:HITS. Hvilket år treffer vi denne gangen?</p><div class="replaycount" id="replayFeatureClock">NESTE RE:PLAY • :00</div></div>
 </section>
 
@@ -818,6 +818,41 @@ window.addEventListener('DOMContentLoaded', function(){
 
     /* Fallback sync in case a browser doesn't trigger a useful mutation. */
     setInterval(updateMobileNowPlaying, 3000);
+  });
+})();
+</script>
+
+
+<script>
+/* RE:HITS V4.6 — use the current cover as the player's atmosphere */
+(function(){
+  function syncPlayerArtwork(){
+    const player = document.querySelector('.player');
+    const cover = document.getElementById('coverImg');
+    if(!player || !cover) return;
+
+    const src = (cover.currentSrc || cover.src || '').trim();
+    const usable = src && !src.startsWith('data:') && !/undefined|null/i.test(src);
+
+    if(usable){
+      /* CSS url() safely quoted for normal http(s) artwork URLs */
+      const safe = src.replace(/\\/g,'\\\\').replace(/"/g,'\\"');
+      player.style.setProperty('--player-art', `url("${safe}")`);
+      player.classList.add('has-art');
+    }else{
+      player.style.removeProperty('--player-art');
+      player.classList.remove('has-art');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    const cover=document.getElementById('coverImg');
+    if(!cover) return;
+    syncPlayerArtwork();
+
+    const obs=new MutationObserver(syncPlayerArtwork);
+    obs.observe(cover,{attributes:true,attributeFilter:['src']});
+    cover.addEventListener('load',syncPlayerArtwork);
   });
 })();
 </script>
