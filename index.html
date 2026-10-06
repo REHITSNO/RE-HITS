@@ -113,6 +113,32 @@ main{max-width:1080px;margin:auto}.brand{text-align:center;margin:6px 0 26px}.lo
   font-size:10px;
   letter-spacing:.04em;
 }
+
+/* RE:HITS V4 — digital radio identity */
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:
+ radial-gradient(circle at 12% 18%,rgba(0,239,181,.08),transparent 24%),
+ radial-gradient(circle at 86% 42%,rgba(0,239,181,.045),transparent 28%)}
+.player{position:relative;overflow:hidden}.player:after{content:"ON AIR";position:absolute;right:-12px;top:16px;font-size:72px;font-weight:950;letter-spacing:-.06em;color:rgba(255,255,255,.018);pointer-events:none}
+.badge#programBadge{margin:18px 0 14px}
+.segmentprogress{display:grid;grid-template-columns:repeat(24,1fr);gap:4px;margin:12px 0 8px}
+.segmentprogress i{height:8px;border-radius:3px;background:#1a2925;transition:background .25s,transform .25s}
+.segmentprogress i.on{background:var(--accent);transform:scaleY(1.18)}
+.radio-times{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px}
+.radio-times strong{color:#dce5e2;font-size:10px;letter-spacing:.08em}
+.nextpanel{margin-top:20px;display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:10px}
+.nextbox,.replaybox{border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:#08110f}
+.nextbox small,.replaybox small{display:block;color:var(--accent);font-size:9px;font-weight:950;letter-spacing:.14em;margin-bottom:6px}
+.nextbox strong{font-size:14px}.replaybox{text-align:right;background:linear-gradient(135deg,rgba(0,239,181,.07),#08110f)}
+.replaybox strong{font-size:14px}.replaybox span{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.onairstrip{margin:14px 0 0;display:grid;grid-template-columns:auto 1fr auto 1fr;gap:12px;align-items:center;padding:13px 16px;border:1px solid #24483e;border-radius:16px;background:linear-gradient(90deg,rgba(0,239,181,.08),rgba(8,15,13,.96))}
+.onairdot{color:var(--accent);font-size:10px;font-weight:950;letter-spacing:.12em}.onairlabel{font-size:9px;color:var(--muted);font-weight:900;letter-spacing:.1em}.onairvalue{font-size:12px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.freshhero{margin-top:32px;padding:24px;overflow:hidden;position:relative}.freshhero:before{content:"RE:FRESH";position:absolute;right:-5px;top:-18px;font-size:92px;font-weight:950;letter-spacing:-.08em;color:rgba(0,239,181,.035)}
+.freshhead{position:relative;display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:18px}.freshhead h2{font-size:30px;margin:0}.freshhead p{margin:5px 0 0;color:var(--muted);font-size:12px}.freshlive{border:1px solid #285044;border-radius:999px;padding:7px 10px;color:var(--accent);font-size:9px;font-weight:950}
+.freshgrid{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.freshitem{padding:15px;border:1px solid var(--line);border-radius:16px;background:#09110f;min-width:0}.freshtag{display:inline-block;color:#06110e;background:var(--accent);border-radius:999px;padding:5px 7px;font-size:8px;font-weight:950;letter-spacing:.08em}.freshtitle{font-weight:950;margin-top:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.freshartist{font-size:11px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.replayfeature{margin-top:18px;padding:0;display:grid;grid-template-columns:260px 1fr;overflow:hidden}.replayfeature img{width:100%;height:100%;object-fit:cover;min-height:180px}.replaycopy{padding:22px;align-self:center}.replaycopy h2{margin:0;font-size:26px}.replaycopy p{color:var(--muted);font-size:12px;max-width:520px}.replaycount{display:inline-block;margin-top:8px;border:1px solid #285044;border-radius:999px;padding:7px 10px;color:var(--accent);font-size:10px;font-weight:950}
+.cover.replaymode{background-image:url("replay-banner.png")!important;background-size:cover!important;background-position:center!important;border-color:rgba(0,239,181,.55);box-shadow:0 0 45px rgba(0,239,181,.12)}.cover.replaymode:before{content:""!important}
+@media(max-width:760px){.nextpanel{grid-template-columns:1fr}.replaybox{text-align:left}.onairstrip{grid-template-columns:auto 1fr}.freshgrid{display:flex;overflow-x:auto}.freshitem{min-width:210px}.replayfeature{grid-template-columns:1fr}.replayfeature img{max-height:220px}.segmentprogress{gap:3px}}
+
 </style></head><body>
 <audio id="rehitsAudio" preload="none"></audio>
 
@@ -133,7 +159,19 @@ main{max-width:1080px;margin:auto}.brand{text-align:center;margin:6px 0 26px}.lo
   <span>En ny æra starter.</span>
 </div>
 
-<section class="card player"><div class="playergrid"><div class="cover" id="mainCover"><div class="live"><i></i><span id="currentProgram">RE:HITS</span></div></div><div><div class="label">RE:NÅ</div><h1 id="song">Song Title</h1><div class="artist" id="artist">Artist Name</div><div class="badge">RE:FRESH</div><div class="progress"><span id="songProgress" style="width:0%"></span></div><div class="times"><span id="songElapsed">0:00</span><span id="songDuration">--:--</span></div><div class="controls"><button class="play masterplay" type="button">▶</button><span class="volicon">🔊</span><input class="volslider" id="mainVolume" type="range" min="0" max="100" value="80" aria-label="Volum"><button class="likebtn" id="mainLike" type="button" aria-label="Lik denne låten">♡</button><div class="onair">● RE:HITS LIVE</div></div><div class="next"><div><small>RE:NESTE</small><strong id="nextSong">Next Artist — Next Song</strong></div><div class="accent"><strong>RE:PLAY</strong><br><small>NESTE HELE TIME</small></div></div></div></div></section>
+<section class="card player"><div class="playergrid"><div class="cover" id="mainCover"><div class="live"><i></i><span id="currentProgram">RE:HITS</span></div></div><div><div class="label">RE:NÅ</div><h1 id="song">Song Title</h1><div class="artist" id="artist">Artist Name</div><div class="badge" id="programBadge">RE:HITS</div><div class="segmentprogress" id="segmentProgress" aria-label="Låtprogresjon"></div><div class="radio-times"><span id="songElapsed">0:00</span><strong>● LIVE • <span id="songDuration">--:--</span></strong></div><div class="controls"><button class="play masterplay" type="button">▶</button><span class="volicon">🔊</span><input class="volslider" id="mainVolume" type="range" min="0" max="100" value="80" aria-label="Volum"><button class="likebtn" id="mainLike" type="button" aria-label="Lik denne låten">♡</button><div class="onair">● RE:HITS LIVE</div></div><div class="nextpanel"><div class="nextbox"><small>RE:NESTE</small><strong id="nextSong">Neste låt kommer snart</strong></div><div class="replaybox"><small>↶ RE:PLAY</small><strong>ET TILBAKEBLIKK HVER TIME</strong><span id="replayInlineClock">Neste :00</span></div></div></div></div></section>
+<div class="onairstrip"><div class="onairdot">● ON AIR</div><div><div class="onairlabel">NÅ PÅ RE:HITS</div><div class="onairvalue" id="onAirProgram">RE:HITS</div></div><div class="onairlabel">NESTE PROGRAM</div><div class="onairvalue" id="onAirNextProgram">—</div></div>
+
+<section class="card freshhero">
+  <div class="freshhead"><div><h2><span class="accent">RE:</span>FRESH</h2><p>FRESH HITS. FIRST. • DET NYESTE PÅ RE:HITS</p></div><div class="freshlive" id="freshLiveBadge">NEW MUSIC</div></div>
+  <div class="freshgrid" id="freshGrid"><div class="freshitem"><span class="freshtag">JUST ADDED</span><div class="freshtitle">Laster ny musikk …</div><div class="freshartist">RE:HITS</div></div></div>
+</section>
+
+<section class="card replayfeature">
+  <img src="replay-banner.png" alt="The Hits RE:PLAY">
+  <div class="replaycopy"><div class="label">↶ RE:PLAY</div><h2>ET TILBAKEBLIKK HVER HELE TIME</h2><p>Én låt fra arkivet får nytt liv på RE:HITS. Hvilket år treffer vi denne gangen?</p><div class="replaycount" id="replayFeatureClock">NESTE RE:PLAY • :00</div></div>
+</section>
+
 <section class="section"><div class="sectionhead"><h2><span class="accent">RE:</span>SIST</h2><p>DET DU NETTOPP HØRTE</p></div><div class="history"><div class="track"><div class="art" id="recentCover0">01</div><div class="info"><div class="song" id="recentTitle0">Last Song</div><div class="trackartist" id="recentArtist0">Artist One</div><div class="meta"><span class="pill program">RE:FRESH</span><span class="pill">POP</span></div></div></div><div class="track"><div class="art" id="recentCover1">02</div><div class="info"><div class="song" id="recentTitle1">Previous Track</div><div class="trackartist" id="recentArtist1">Artist Two</div><div class="meta"><span class="pill program">RE:FRESH</span><span class="pill">DANCE</span></div></div></div><div class="track"><div class="art" id="recentCover2">03</div><div class="info"><div class="song" id="recentTitle2">Throwback</div><div class="trackartist" id="recentArtist2">Artist Three</div><div class="meta"><span class="pill program">RE:PLAY</span><span class="pill">2000s</span></div></div></div><div class="track"><div class="art" id="recentCover3">04</div><div class="info"><div class="song" id="recentTitle3">Morning Track</div><div class="trackartist" id="recentArtist3">Artist Four</div><div class="meta"><span class="pill program">DANCE MORGEN</span><span class="pill">DANCE</span></div></div></div></div></section></section>
 
 <section id="programs" class="page">
@@ -183,7 +221,7 @@ if(wishForm){
 }
 
 
-const API_BASE = "https://gates-frequencies-built-copying.trycloudflare.com";
+const API_BASE='https://til-voluntary-benjamin-dig.trycloudflare.com';
 function splitTrack(value=''){const p=value.split(' - ');return p.length>1?{artist:p.shift().trim(),title:p.join(' - ').trim()}:{artist:'RE:HITS',title:value||'Ukjent låt'}}
 function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function playedTime(iso){if(!iso)return'--:--';const d=new Date(iso);return isNaN(d)?'--:--':d.toLocaleTimeString('nb-NO',{hour:'2-digit',minute:'2-digit'})}
@@ -322,8 +360,8 @@ window.addEventListener('DOMContentLoaded', function(){
 
   // Uses the same computer/server hostname as the website.
   // Icecast in bot.py uses port 8000 and mount /thehits.
-  const STREAM_URL = "https://fireplace-four-concord-buffalo.trycloudflare.com/thehits";
-  const API_URL = "https://gates-frequencies-built-copying.trycloudflare.com";
+  const STREAM_URL='https://behalf-karaoke-shelf-tamil.trycloudflare.com/thehits';
+  const API_URL='https://til-voluntary-benjamin-dig.trycloudflare.com';
 
   audio.src=STREAM_URL;
   audio.volume=.8;
@@ -428,14 +466,25 @@ window.addEventListener('DOMContentLoaded', function(){
     return `${m}:${String(s).padStart(2,'0')}`;
   }
 
+  function ensureSegments(){
+    const box=document.getElementById('segmentProgress');
+    if(!box || box.children.length)return;
+    for(let i=0;i<24;i++){const el=document.createElement('i');box.appendChild(el);}
+  }
+  function paintSegments(pct){
+    ensureSegments();
+    const on=Math.round((Math.max(0,Math.min(100,pct))/100)*24);
+    document.querySelectorAll('#segmentProgress i').forEach((el,i)=>el.classList.toggle('on',i<on));
+  }
+
   function renderSongProgress(){
-    const bar=document.getElementById('songProgress');
+    const seg=document.getElementById('segmentProgress');
     const elapsedEl=document.getElementById('songElapsed');
     const durationEl=document.getElementById('songDuration');
-    if(!bar || !elapsedEl || !durationEl)return;
+    if(!seg || !elapsedEl || !durationEl)return;
 
     if(!liveStartedAt || !(liveDuration>0)){
-      bar.style.width='0%';
+      paintSegments(0);
       elapsedEl.textContent='0:00';
       durationEl.textContent='--:--';
       return;
@@ -443,7 +492,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
     const started=new Date(liveStartedAt).getTime();
     if(!Number.isFinite(started)){
-      bar.style.width='0%';
+      paintSegments(0);
       elapsedEl.textContent='0:00';
       durationEl.textContent=formatTime(liveDuration);
       return;
@@ -452,7 +501,7 @@ window.addEventListener('DOMContentLoaded', function(){
     const elapsed=Math.max(0,(Date.now()-started)/1000);
     const shown=Math.min(elapsed,liveDuration);
     const pct=Math.max(0,Math.min(100,(shown/liveDuration)*100));
-    bar.style.width=pct+'%';
+    paintSegments(pct);
     elapsedEl.textContent=formatTime(shown);
     durationEl.textContent=formatTime(liveDuration);
   }
@@ -486,7 +535,23 @@ window.addEventListener('DOMContentLoaded', function(){
       const cp=document.getElementById('currentProgram');
       if(cp && d.program) cp.textContent=d.program;
 
+      const programName=d.program||'RE:HITS';
+      const badge=document.getElementById('programBadge');
+      if(badge) badge.textContent=programName.replace(/^THE HITS\s*/i,'').toUpperCase();
+      const onAir=document.getElementById('onAirProgram');
+      const onAirNext=document.getElementById('onAirNextProgram');
+      if(onAir) onAir.textContent=programName;
+      if(onAirNext) onAirNext.textContent=d.next_program||'—';
+      const freshBadge=document.getElementById('freshLiveBadge');
+      if(freshBadge) freshBadge.textContent=/RE:FRESH/i.test(programName)?'● ON AIR':'NEW MUSIC';
+
       setImages(d.cover);
+      const replayNow=/RE:PLAY/i.test(programName);
+      const mainCover=document.getElementById('mainCover');
+      if(mainCover){
+        mainCover.classList.toggle('replaymode',replayNow);
+        if(replayNow) mainCover.classList.add('hascover');
+      }
       const recent=Array.isArray(d.history)?d.history.slice(0,4):[];
       recent.forEach((item,i)=>{
         const tr=parseTrack(item.title);
@@ -506,6 +571,26 @@ window.addEventListener('DOMContentLoaded', function(){
       console.debug('RE:HITS API ikke tilgjengelig ennå.');
     }
   }
+  async function loadFresh(){
+    const grid=document.getElementById('freshGrid');
+    if(!grid)return;
+    try{
+      const r=await fetch(API_URL+'/api/refresh',{cache:'no-store'});
+      if(!r.ok)throw 0;
+      const d=await r.json();
+      const items=Array.isArray(d.items)?d.items:[];
+      grid.innerHTML=items.length?items.slice(0,8).map((item,i)=>{
+        const tr=parseTrack(item.title);
+        const tag=(d.power_hit && d.power_hit===item.title)?'POWER HIT':(i===0?'JUST ADDED':i<3?'NEW':'RE:FRESH');
+        return `<div class="freshitem"><span class="freshtag">${tag}</span><div class="freshtitle">${tr.title}</div><div class="freshartist">${tr.artist}</div></div>`;
+      }).join(''):'<div class="freshitem"><span class="freshtag">RE:FRESH</span><div class="freshtitle">Ny musikk kommer snart</div><div class="freshartist">RE:HITS</div></div>';
+    }catch(e){
+      grid.innerHTML='<div class="freshitem"><span class="freshtag">RE:FRESH</span><div class="freshtitle">Kunne ikke hente ny musikk</div><div class="freshartist">Start RE:HITS-boten</div></div>';
+    }
+  }
+
+  loadFresh();
+  setInterval(loadFresh,60000);
   updateLive();
   setInterval(updateLive,5000);
 })();
@@ -515,14 +600,14 @@ window.addEventListener('DOMContentLoaded', function(){
 <script>
 (function(){
   function updateReplayClock(){
-    const el=document.getElementById('replayClock');
-    if(!el)return;
+    const targets=[document.getElementById('replayClock'),document.getElementById('replayInlineClock'),document.getElementById('replayFeatureClock')].filter(Boolean);
+    if(!targets.length)return;
     const now=new Date();
     const next=new Date(now);
     next.setMinutes(60,0,0);
     let s=Math.max(0,Math.floor((next-now)/1000));
     const m=Math.floor(s/60), sec=s%60;
-    el.textContent=`Neste hele time om ${m}:${String(sec).padStart(2,'0')}`;
+    targets.forEach(el=>el.textContent=`Neste RE:PLAY om ${m}:${String(sec).padStart(2,'0')}`);
   }
   updateReplayClock();
   setInterval(updateReplayClock,1000);
