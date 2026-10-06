@@ -139,6 +139,29 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 .cover.replaymode{background-image:url("replay-banner.png")!important;background-size:cover!important;background-position:center!important;border-color:rgba(0,239,181,.55);box-shadow:0 0 45px rgba(0,239,181,.12)}.cover.replaymode:before{content:""!important}
 @media(max-width:760px){.nextpanel{grid-template-columns:1fr}.replaybox{text-align:left}.onairstrip{grid-template-columns:auto 1fr}.freshgrid{display:flex;overflow-x:auto}.freshitem{min-width:210px}.replayfeature{grid-template-columns:1fr}.replayfeature img{max-height:220px}.segmentprogress{gap:3px}}
 
+
+/* RE:SIST V2 — factual radio timeline */
+.playedlist{position:relative;display:grid;gap:0;padding-left:22px}
+.playedlist:before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--accent),rgba(0,239,181,.08))}
+.programbreak{position:relative;margin:22px 0 8px;padding:0 0 0 18px;border:0;background:transparent}
+.programbreak:before{content:"";position:absolute;left:-19px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px #07100e,0 0 20px rgba(0,239,181,.35)}
+.programbreaktop{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.programbreakname{font-size:13px;font-weight:950;letter-spacing:.08em}
+.programbreaktime{font-size:10px;color:var(--muted);font-weight:900}
+.programbreakline{display:none}
+.playedrow{position:relative;margin:0 0 8px;padding:11px 14px;grid-template-columns:54px 54px minmax(0,1fr) auto;border-radius:15px}
+.playedrow:before{content:"";position:absolute;left:-18px;top:50%;width:10px;height:2px;background:#24483e}
+.playedprogram.replay{color:var(--accent);border-color:var(--accent);background:rgba(0,239,181,.06)}
+.recentfact{font-size:9px;font-weight:900;letter-spacing:.04em;border:1px solid #2a4039;border-radius:99px;padding:5px 7px;color:#cbd5d1}
+.recentfact.replay{color:var(--accent);border-color:var(--accent);background:rgba(0,239,181,.06)}
+@media(max-width:760px){
+ .playedlist{padding-left:17px}
+ .playedlist:before{left:6px}
+ .programbreak:before{left:-16px}
+ .playedrow{grid-template-columns:46px 46px minmax(0,1fr)}
+ .playedrow .playedprogram{grid-column:3;justify-self:start;margin-top:5px}
+}
+
 </style></head><body>
 <audio id="rehitsAudio" preload="none"></audio>
 
@@ -172,7 +195,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
   <div class="replaycopy"><div class="label">↶ RE:PLAY</div><h2>ET TILBAKEBLIKK HVER HELE TIME</h2><p>Én låt fra arkivet får nytt liv på RE:HITS. Hvilket år treffer vi denne gangen?</p><div class="replaycount" id="replayFeatureClock">NESTE RE:PLAY • :00</div></div>
 </section>
 
-<section class="section"><div class="sectionhead"><h2><span class="accent">RE:</span>SIST</h2><p>DET DU NETTOPP HØRTE</p></div><div class="history"><div class="track"><div class="art" id="recentCover0">01</div><div class="info"><div class="song" id="recentTitle0">Last Song</div><div class="trackartist" id="recentArtist0">Artist One</div><div class="meta"><span class="pill program">RE:FRESH</span><span class="pill">POP</span></div></div></div><div class="track"><div class="art" id="recentCover1">02</div><div class="info"><div class="song" id="recentTitle1">Previous Track</div><div class="trackartist" id="recentArtist1">Artist Two</div><div class="meta"><span class="pill program">RE:FRESH</span><span class="pill">DANCE</span></div></div></div><div class="track"><div class="art" id="recentCover2">03</div><div class="info"><div class="song" id="recentTitle2">Throwback</div><div class="trackartist" id="recentArtist2">Artist Three</div><div class="meta"><span class="pill program">RE:PLAY</span><span class="pill">2000s</span></div></div></div><div class="track"><div class="art" id="recentCover3">04</div><div class="info"><div class="song" id="recentTitle3">Morning Track</div><div class="trackartist" id="recentArtist3">Artist Four</div><div class="meta"><span class="pill program">DANCE MORGEN</span><span class="pill">DANCE</span></div></div></div></div></section></section>
+<section class="section"><div class="sectionhead"><h2><span class="accent">RE:</span>SIST</h2><p>DET DU NETTOPP HØRTE</p></div><div class="history"><div class="track"><div class="art" id="recentCover0">01</div><div class="info"><div class="song" id="recentTitle0">Last Song</div><div class="trackartist" id="recentArtist0">Artist One</div><div class="meta" id="recentMeta0"><span class="pill">--:-- • RE:HITS</span></div></div></div><div class="track"><div class="art" id="recentCover1">02</div><div class="info"><div class="song" id="recentTitle1">Previous Track</div><div class="trackartist" id="recentArtist1">Artist Two</div><div class="meta" id="recentMeta1"><span class="pill">--:-- • RE:HITS</span></div></div></div><div class="track"><div class="art" id="recentCover2">03</div><div class="info"><div class="song" id="recentTitle2">Throwback</div><div class="trackartist" id="recentArtist2">Artist Three</div><div class="meta" id="recentMeta2"><span class="pill">--:-- • RE:HITS</span></div></div></div><div class="track"><div class="art" id="recentCover3">04</div><div class="info"><div class="song" id="recentTitle3">Morning Track</div><div class="trackartist" id="recentArtist3">Artist Four</div><div class="meta" id="recentMeta3"><span class="pill">--:-- • RE:HITS</span></div></div></div></div></section></section>
 
 <section id="programs" class="page">
   <div class="sectionhead"><h2><span>RE:</span>PROGRAMMER</h2><small>HELE UKEN PÅ RE:HITS</small></div>
@@ -221,12 +244,35 @@ if(wishForm){
 }
 
 
-const API_BASE = "https://terrace-thumb-inline-helicopter.trycloudflare.com";
+const API_BASE='https://delays-calvin-crimes-humanitarian.trycloudflare.com';
 function splitTrack(value=''){const p=value.split(' - ');return p.length>1?{artist:p.shift().trim(),title:p.join(' - ').trim()}:{artist:'RE:HITS',title:value||'Ukjent låt'}}
 function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function playedTime(iso){if(!iso)return'--:--';const d=new Date(iso);return isNaN(d)?'--:--':d.toLocaleTimeString('nb-NO',{hour:'2-digit',minute:'2-digit'})}
 function playedDate(iso){if(!iso)return'';const d=new Date(iso),t=new Date();if(isNaN(d))return'';const same=d.getFullYear()===t.getFullYear()&&d.getMonth()===t.getMonth()&&d.getDate()===t.getDate();return same?'I DAG':d.toLocaleDateString('nb-NO',{day:'2-digit',month:'2-digit',year:'numeric'})}
-function historyRow(i){const t=splitTrack(i.title);const c=i.cover?`<img class="playedcover" src="${esc(i.cover)}" alt="">`:`<div class="playedcover" style="display:grid;place-items:center;color:var(--accent);font-weight:950">RE:</div>`;return `<div class="card playedrow"><div class="playedtime">${playedTime(i.played_at)}</div>${c}<div style="min-width:0"><div class="playedtitle">${esc(t.title)}</div><div class="playedartist">${esc(t.artist)}</div><div class="playeddate">${playedDate(i.played_at)}</div></div><span class="pill program">${esc(i.program||'RE:HITS')}</span></div>`}
+function cleanProgramName(program='RE:HITS'){
+  return String(program||'RE:HITS').replace(/^THE HITS\s*/i,'').replace(/^The Hits\s*/i,'').trim()||'RE:HITS';
+}
+function programBadge(program='RE:HITS'){
+  const replay=/RE:PLAY/i.test(program);
+  const label=replay?'↶ RE:PLAY':cleanProgramName(program).toUpperCase();
+  return `<span class="pill playedprogram${replay?' replay':''}">${esc(label)}</span>`;
+}
+function historyRow(i){
+  const t=splitTrack(i.title);
+  const c=i.cover
+    ? `<img class="playedcover" src="${esc(i.cover)}" alt="">`
+    : `<div class="playedcover" style="display:grid;place-items:center;color:var(--accent);font-weight:950">RE:</div>`;
+  return `<div class="card playedrow">
+    <div class="playedtime">${playedTime(i.played_at)}</div>
+    ${c}
+    <div style="min-width:0">
+      <div class="playedtitle">${esc(t.title)}</div>
+      <div class="playedartist">${esc(t.artist)}</div>
+      <div class="playeddate">${playedDate(i.played_at)}</div>
+    </div>
+    ${programBadge(i.program||'RE:HITS')}
+  </div>`;
+}
 
 function renderGroupedHistory(items){
   let html='', previousProgram=null;
@@ -234,12 +280,13 @@ function renderGroupedHistory(items){
     const program=item.program || 'RE:HITS';
     if(program!==previousProgram){
       const time=playedTime(item.played_at);
+      const replay=/RE:PLAY/i.test(program);
+      const name=replay?'↶ RE:PLAY':cleanProgramName(program).toUpperCase();
       html+=`<div class="programbreak">
         <div class="programbreaktop">
-          <div class="programbreakname"><span>RE:</span> ${esc(program.replace(/^THE HITS\s*/i,''))}</div>
-          <div class="programbreaktime">PROGRAMSKIFTE • ${time}</div>
+          <div class="programbreakname">${replay?'':`<span>RE:</span> `}${esc(name)}</div>
+          <div class="programbreaktime">${time} • ON AIR</div>
         </div>
-        <div class="programbreakline"></div>
       </div>`;
       previousProgram=program;
     }
@@ -360,8 +407,8 @@ window.addEventListener('DOMContentLoaded', function(){
 
   // Uses the same computer/server hostname as the website.
   // Icecast in bot.py uses port 8000 and mount /thehits.
-  const STREAM_URL = "https://ties-diving-louisville-focused.trycloudflare.com/thehits";
-  const API_URL = "https://terrace-thumb-inline-helicopter.trycloudflare.com";
+  const STREAM_URL='https://tablets-aka-exceed-classical.trycloudflare.com/thehits';
+  const API_URL='https://delays-calvin-crimes-humanitarian.trycloudflare.com';
 
   audio.src=STREAM_URL;
   audio.volume=.8;
@@ -560,6 +607,12 @@ window.addEventListener('DOMContentLoaded', function(){
         const ce=document.getElementById('recentCover'+i);
         if(te) te.textContent=tr.title;
         if(ae) ae.textContent=tr.artist;
+        const me=document.getElementById('recentMeta'+i);
+        if(me){
+          const replay=/RE:PLAY/i.test(item.program||'');
+          const label=replay?'↶ RE:PLAY':cleanProgramName(item.program||'RE:HITS').toUpperCase();
+          me.innerHTML=`<span class="recentfact${replay?' replay':''}">${playedTime(item.played_at)} • ${esc(label)}</span>`;
+        }
         if(ce && item.cover){
           ce.style.backgroundImage=`url("${item.cover}")`;
           ce.style.backgroundSize='cover';
@@ -581,7 +634,7 @@ window.addEventListener('DOMContentLoaded', function(){
       const items=Array.isArray(d.items)?d.items:[];
       grid.innerHTML=items.length?items.slice(0,8).map((item,i)=>{
         const tr=parseTrack(item.title);
-        const tag=(d.power_hit && d.power_hit===item.title)?'POWER HIT':(i===0?'JUST ADDED':i<3?'NEW':'RE:FRESH');
+        const tag=i===0?'JUST ADDED':i<3?'NEW':'RE:FRESH';
         return `<div class="freshitem"><span class="freshtag">${tag}</span><div class="freshtitle">${tr.title}</div><div class="freshartist">${tr.artist}</div></div>`;
       }).join(''):'<div class="freshitem"><span class="freshtag">RE:FRESH</span><div class="freshtitle">Ny musikk kommer snart</div><div class="freshartist">RE:HITS</div></div>';
     }catch(e){
@@ -674,6 +727,95 @@ window.addEventListener('DOMContentLoaded', function(){
   });
   renderPrograms();
   setInterval(renderPrograms,60000);
+})();
+</script>
+
+
+<script>
+/* RE:HITS V4.3 — Mobile Now Playing / lock-screen metadata */
+(function(){
+  let lastMediaKey = "";
+
+  function updateMobileNowPlaying(){
+    if(!('mediaSession' in navigator)) return;
+
+    const titleEl = document.getElementById('songTitle');
+    const artistEl = document.getElementById('artistName');
+    const coverEl = document.getElementById('coverImg');
+
+    const title = (titleEl && titleEl.textContent || '').trim();
+    const artist = (artistEl && artistEl.textContent || '').trim();
+    const cover = coverEl && coverEl.src ? coverEl.src : '';
+
+    if(!title || title === 'Song Title') return;
+
+    const key = [title, artist, cover].join('|');
+    if(key === lastMediaKey) return;
+    lastMediaKey = key;
+
+    const artwork = cover ? [
+      {src: cover, sizes:'96x96'},
+      {src: cover, sizes:'128x128'},
+      {src: cover, sizes:'192x192'},
+      {src: cover, sizes:'256x256'},
+      {src: cover, sizes:'384x384'},
+      {src: cover, sizes:'512x512'}
+    ] : [];
+
+    try{
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: title,
+        artist: artist || 'RE:HITS',
+        album: 'RE:HITS • HITS DIFFERENT.',
+        artwork: artwork
+      });
+    }catch(e){
+      console.warn('RE:HITS Media Session metadata:', e);
+    }
+  }
+
+  function bindMediaControls(){
+    if(!('mediaSession' in navigator)) return;
+
+    const audio = document.querySelector('audio');
+    if(!audio) return;
+
+    try{
+      navigator.mediaSession.setActionHandler('play', async () => {
+        try{ await audio.play(); }catch(e){}
+      });
+      navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+    }catch(e){}
+
+    audio.addEventListener('play', () => {
+      try{ navigator.mediaSession.playbackState = 'playing'; }catch(e){}
+      updateMobileNowPlaying();
+    });
+    audio.addEventListener('pause', () => {
+      try{ navigator.mediaSession.playbackState = 'paused'; }catch(e){}
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    bindMediaControls();
+    updateMobileNowPlaying();
+
+    /* The page already refreshes live metadata; observe those changes so the
+       phone lock screen updates immediately when the song changes. */
+    const targets = ['songTitle','artistName','coverImg']
+      .map(id => document.getElementById(id)).filter(Boolean);
+
+    if(targets.length){
+      const observer = new MutationObserver(updateMobileNowPlaying);
+      targets.forEach(el => observer.observe(el, {
+        childList:true, subtree:true, attributes:true,
+        attributeFilter:['src']
+      }));
+    }
+
+    /* Fallback sync in case a browser doesn't trigger a useful mutation. */
+    setInterval(updateMobileNowPlaying, 3000);
+  });
 })();
 </script>
 
