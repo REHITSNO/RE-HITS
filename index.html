@@ -6,7 +6,7 @@
 <style>
 :root{--bg:#050807;--panel:#0b1110;--panel2:#0e1714;--text:#f6f8f7;--muted:#8c9a95;--accent:#00efb5;--line:#1d2b27}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,rgba(0,239,181,.09),transparent 28%),var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;padding:28px}
-main{max-width:1080px;margin:auto}.brand{text-align:center;margin:6px 0 26px}.logo{font-weight:950;font-size:clamp(46px,8vw,80px);letter-spacing:-.07em}.logo .re,.label,.accent{color:var(--accent)}.logo .colon{color:var(--accent);display:inline-block;transform:skew(-12deg)}.slogan{letter-spacing:.42em;font-size:12px}
+main{max-width:1080px;margin:auto}.brand{text-align:center;margin:6px 0 26px}.brandlogo{display:block;width:min(100%,760px);height:auto;margin:0 auto;object-fit:contain}@media(max-width:760px){.brandlogo{width:min(100%,520px)}}.logo{font-weight:950;font-size:clamp(46px,8vw,80px);letter-spacing:-.07em}.logo .re,.label,.accent{color:var(--accent)}.logo .colon{color:var(--accent);display:inline-block;transform:skew(-12deg)}.slogan{letter-spacing:.42em;font-size:12px}
 .card{background:rgba(11,17,16,.96);border:1px solid var(--line);border-radius:26px}.player{padding:24px}.playergrid{display:grid;grid-template-columns:300px 1fr;gap:30px;align-items:center}
 .cover{aspect-ratio:1;border-radius:20px;background:linear-gradient(145deg,#14231f,#07100e);border:1px solid #21332e;display:grid;place-items:center;position:relative;overflow:hidden}.cover:before{content:"RE:";font-size:88px;font-weight:950;letter-spacing:-8px;color:var(--accent)}.live{position:absolute;top:14px;left:14px;border:1px solid #285044;background:#08110f;border-radius:99px;padding:7px 11px;font-size:11px;font-weight:900;letter-spacing:.12em}.live i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:7px}
 .label{font-size:12px;font-weight:900;letter-spacing:.18em;margin-bottom:10px}h1{font-size:clamp(30px,5vw,48px);margin:0 0 7px;letter-spacing:-.04em}.artist{font-size:20px;color:#c7d0cd}.badge{display:inline-block;border:1px solid #285044;background:#0c1b17;border-radius:99px;padding:7px 11px;font-size:11px;font-weight:900;margin:22px 0}
@@ -151,7 +151,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
     <div class="countbox"><span class="countnum" id="cdMinutes">--</span><span class="countlabel">MINUTTER</span></div>
     <div class="countbox"><span class="countnum" id="cdSeconds">--</span><span class="countlabel">SEKUNDER</span></div>
   </div><main>
-<div class="brand"><div class="logo"><span class="re">RE</span><span class="colon">:</span>HITS</div><div class="slogan">HITS DIFFERENT.</div></div>
+<div class="brand"><img class="brandlogo" src="rehits-logo.png" alt="RE:HITS — HITS DIFFERENT."></div>
 <nav class="nav"><button class="active" data-page="home">HJEM</button><button data-page="programs">PROGRAMMER</button><button data-page="played">SIST SPILT</button></nav>
 <section id="home" class="page active">
 <div class="transition-banner">
@@ -221,7 +221,7 @@ if(wishForm){
 }
 
 
-const API_BASE = "https://great-owns-deutsche-myrtle.trycloudflare.com";
+const API_BASE='https://til-voluntary-benjamin-dig.trycloudflare.com';
 function splitTrack(value=''){const p=value.split(' - ');return p.length>1?{artist:p.shift().trim(),title:p.join(' - ').trim()}:{artist:'RE:HITS',title:value||'Ukjent låt'}}
 function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function playedTime(iso){if(!iso)return'--:--';const d=new Date(iso);return isNaN(d)?'--:--':d.toLocaleTimeString('nb-NO',{hour:'2-digit',minute:'2-digit'})}
@@ -360,8 +360,8 @@ window.addEventListener('DOMContentLoaded', function(){
 
   // Uses the same computer/server hostname as the website.
   // Icecast in bot.py uses port 8000 and mount /thehits.
-  const STREAM_URL = "https://automotive-innovation-thats-tablet.trycloudflare.com/thehits";
-  const API_URL = "https://great-owns-deutsche-myrtle.trycloudflare.com";
+  const STREAM_URL='https://behalf-karaoke-shelf-tamil.trycloudflare.com/thehits';
+  const API_URL='https://til-voluntary-benjamin-dig.trycloudflare.com';
 
   audio.src=STREAM_URL;
   audio.volume=.8;
