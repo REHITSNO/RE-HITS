@@ -252,7 +252,7 @@ if(wishForm){
 }
 
 
-const API_BASE = "https://towns-expansys-subcommittee-tunes.trycloudflare.com";
+const API_BASE = "https://near-game-restoration-himself.trycloudflare.com";
 function splitTrack(value=''){const p=value.split(' - ');return p.length>1?{artist:p.shift().trim(),title:p.join(' - ').trim()}:{artist:'RE:HITS',title:value||'Ukjent låt'}}
 function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function playedTime(iso){if(!iso)return'--:--';const d=new Date(iso);return isNaN(d)?'--:--':d.toLocaleTimeString('nb-NO',{hour:'2-digit',minute:'2-digit'})}
@@ -415,8 +415,8 @@ window.addEventListener('DOMContentLoaded', function(){
 
   // Uses the same computer/server hostname as the website.
   // Icecast in bot.py uses port 8000 and mount /thehits.
-  const STREAM_URL = "https://tubes-discrete-advert-warrant.trycloudflare.com/thehits";
-  const API_URL = "https://towns-expansys-subcommittee-tunes.trycloudflare.com";
+  const STREAM_URL = "https://purple-statewide-beginning-attention.trycloudflare.com/thehits";
+  const API_URL = "https://near-game-restoration-himself.trycloudflare.com";
 
   audio.src=STREAM_URL;
   audio.volume=.8;
